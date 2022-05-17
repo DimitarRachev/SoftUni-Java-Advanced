@@ -7,21 +7,15 @@ import java.util.Scanner;
 
 public class p04MatchingBrackets {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        String expression = new Scanner(System.in).nextLine();
 
-        String input = scanner.nextLine();
-        List<String> result = new ArrayList<>();
-        ArrayDeque<Integer> stack = new ArrayDeque<>();
-
-        for (int i = 0; i < input.length(); i++) {
-            if (input.charAt(i) ==  '(') {
-                stack.push(i);
-            } else if (input.charAt(i) == ')') {
-                int startIndex = stack.pop();
-                result.add(input.substring(startIndex, i + 1));
+        ArrayDeque<Integer> indexOfOpenBracket = new ArrayDeque<>();
+        for (int i = 0; i < expression.length(); i++) {
+            if (expression.charAt(i) == '(') {
+                indexOfOpenBracket.push(i);
+            } else if (expression.charAt(i) == ')') {
+                System.out.println(expression.substring(indexOfOpenBracket.pop(), i + 1));
             }
         }
-        result.stream().forEach(System.out::println);
-
     }
 }

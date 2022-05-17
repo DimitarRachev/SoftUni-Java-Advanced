@@ -6,28 +6,23 @@ import java.util.Scanner;
 public class p01BrowserHistory {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        String line;
         ArrayDeque<String> history = new ArrayDeque<>();
-        String current = null;
-        while (!"Home".equals(line = scanner.nextLine())) {
-            if (line.equals("back")) {
-                if (history.size() <= 0) {
-                    System.out.println("no previous URLs");
+        String input;
+        String currentUrl = null;
+        while (!"Home".equals(input = scanner.nextLine())) {
+            if ("back".equals(input)) {
+                if (history.isEmpty()) {
+                    currentUrl = "no previous URLs";
                 } else {
-                    current = history.pop();
-                    System.out.println(current);
-
+                    currentUrl = history.pop();
                 }
             } else {
-                if (current != null) {
-                    history.push(current);
+                if (currentUrl != null) {
+                    history.push(currentUrl);
                 }
-                current = line;
-                System.out.println(current);
+                currentUrl = input;
             }
-
+            System.out.println(currentUrl);
         }
-
     }
 }

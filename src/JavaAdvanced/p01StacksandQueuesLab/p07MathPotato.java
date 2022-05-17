@@ -10,41 +10,37 @@ public class p07MathPotato {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<String> kids = Arrays.stream(scanner.nextLine().split("\\s+")).collect(Collectors.toList());
-        ArrayDeque<String> resultQueue = new ArrayDeque<>();
-        int n = Integer.parseInt(scanner.nextLine());
-        int passCouner = 0;
-        int cycleCounter = 0;
-        while (kids.size() > 1) {
+        ArrayDeque<String> queue = new ArrayDeque<>(List.of(scanner.nextLine().split("\\s+")));
+        int pass = Integer.parseInt(scanner.nextLine());
+        int cycle = 1;
+        for (int i = pass + 1; i >= 0; i++) {
+            if (queue.size() == 1) {
+                System.out.println("Last is " + queue.poll());
+                return;
+            }
 
-            for (int i = 0; i < kids.size(); i++) {
-                passCouner++;
-                if (kids.size() == 1) {
-                    break;
+            if (i % pass == 0) {
+                if (!isPrime(cycle++)) {
+                    System.out.println("Removed " + queue.poll());
+                } else {
+                    System.out.println("Prime " + queue.peek());
                 }
-                if (passCouner % n == 0) {
-                    cycleCounter++;
-                    if (IsCompositeNumber(cycleCounter)) {
-
-                        resultQueue.offer("Removed " + kids.get(i));
-                        kids.remove(i);
-                        i--;
-                    } else  {
-                        resultQueue.offer("Prime " + kids.get(i));
-                        i--;
-                    }
-                }
+            } else {
+                queue.offer(queue.poll());
             }
         }
-
-        while (!resultQueue.isEmpty()) {
-            System.out.println(resultQueue.poll());
-        }
-        System.out.println("Last is " + kids.get(0));
-
     }
-    private  static boolean IsCompositeNumber(int n) {
-        //Composite number == !prime Number
-        return n == 1 || ((n != 2 && n != 5 && n != 3) && (n % 2 == 0 || n % 5 == 0 || n % 3 == 0));
+
+    private static boolean isPrime(int number) {
+        if (number == 1) {
+            return false;
+        }
+
+        for (int i = 2; i < number; i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }

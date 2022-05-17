@@ -7,18 +7,17 @@ public class p03DecimalToBinary {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        ArrayDeque<Integer> stack = new ArrayDeque<>();
         int num = Integer.parseInt(scanner.nextLine());
-
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
         if (num == 0) {
             System.out.println(0);
             return;
         }
         while (num > 0) {
-            int push = num % 2;
-            num = num / 2;
-            stack.push(push);
+            stack.push(num % 2);
+            num /= 2;
         }
+
         while (!stack.isEmpty()) {
             System.out.print(stack.pop());
         }

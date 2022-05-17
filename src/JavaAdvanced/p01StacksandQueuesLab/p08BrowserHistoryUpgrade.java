@@ -6,40 +6,37 @@ import java.util.Scanner;
 public class p08BrowserHistoryUpgrade {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        ArrayDeque<String> back = new ArrayDeque<String>();
-        ArrayDeque<String> forward = new ArrayDeque<String>();
+        ArrayDeque<String> back = new ArrayDeque<>();
+        ArrayDeque<String> forward = new ArrayDeque<>();
 
         String input;
-        String current = null;
-
+        String currentUrl = null;
         while (!"Home".equals(input = scanner.nextLine())) {
-            if (input.equals("back")) {
+            if ("back".equals(input)) {
                 if (back.isEmpty()) {
                     System.out.println("no previous URLs");
+                    continue;
                 } else {
-                    forward.push(current);
-                    current = back.pop();
-                    System.out.println(current);
+                    forward.push(currentUrl);
+                    currentUrl = back.pop();
                 }
-
-            } else if (input.equals("forward")) {
+            } else if ("forward".equals(input)) {
                 if (forward.isEmpty()) {
                     System.out.println("no next URLs");
+                    continue;
                 } else {
-                    back.push(current);
-                    current = forward.pop();
-                    System.out.println(current);
+                    back.push(currentUrl);
+                    currentUrl = forward.pop();
                 }
 
-            }else {
-                if (current != null) {
-                    back.push(current);
+            } else {
+                if (currentUrl != null) {
+                    back.push(currentUrl);
                 }
-                current = input;
                 forward.clear();
-                System.out.println(current);
+                currentUrl = input;
             }
+            System.out.println(currentUrl);
         }
     }
 }

@@ -26,7 +26,5 @@ public class p05PrinterQueue {
         while (!printQueue.isEmpty()) {
             System.out.println(printQueue.poll());
         }
-
-
     }
 }
