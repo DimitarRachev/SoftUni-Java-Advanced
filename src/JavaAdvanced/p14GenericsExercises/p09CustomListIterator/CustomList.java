@@ -2,10 +2,11 @@ package JavaAdvanced.p14GenericsExercises.p09CustomListIterator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
-class CustomList<T extends Comparable<T>> {
+class CustomList<T extends Comparable<T>> implements Iterable<T>{
    List<T> elements;
 
    public CustomList() {
@@ -81,4 +82,20 @@ class CustomList<T extends Comparable<T>> {
        }
        return sb.toString();
    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            int index = 0;
+            @Override
+            public boolean hasNext() {
+                return index < elements.size();
+            }
+
+            @Override
+            public T next() {
+                return elements.get(index++);
+            }
+        };
+    }
 }

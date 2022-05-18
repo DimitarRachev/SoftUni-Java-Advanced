@@ -1,9 +1,9 @@
 package JavaAdvanced.p14GenericsExercises.p11Threeuple;
 
 public class Threeuple<E, T, S> {
-    E item1;
-    T item2;
-    S item3;
+   private E item1;
+   private T item2;
+   private S item3;
 
     public Threeuple(E item1, T item2, S item3) {
         this.item1 = item1;
@@ -37,6 +37,6 @@ public class Threeuple<E, T, S> {
 
     @Override
     public String toString() {
-        return item1 + " ->" + item2 + " -> " + item3;
+        return item1 + " -> " + item2 + " -> " + item3;
     }
 }
