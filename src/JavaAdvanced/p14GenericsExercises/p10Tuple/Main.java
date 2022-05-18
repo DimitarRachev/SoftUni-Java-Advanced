@@ -26,7 +26,7 @@ public class Main {
         Tuple<Integer, Double> three = new Tuple<>(n, d);
         list.add(three);
 
-        list.stream().forEach(System.out::println);
+        list.forEach(System.out::println);
 
     }
 }
