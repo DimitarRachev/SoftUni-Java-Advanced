@@ -1,27 +1,28 @@
 package JavaAdvanced.p12DefiningClassesExercises.p08TOFIXFamilyTree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public class Person {
-    String name;
-    String birthDay;
-    List<Person> parents;
-    List<Person> childrens;
+public class Person implements Comparable<Person> {
+    private String name;
+    private String birthDay;
+    private Set<Person> parents;
+    private Set<Person> children;
 
-    public Person() {
-        parents = new ArrayList<>();
-        childrens = new ArrayList<>();
+    public Person(String name, String birthDay) {
+        this();
+        this.name = name;
+        this.birthDay = birthDay;
     }
 
-    public List<Person> getParents() {
+    public Person() {
+        parents = new LinkedHashSet<>();
+        children = new LinkedHashSet<>();
+    }
+
+    public Set<Person> getParents() {
         return parents;
     }
 
-    public List<Person> getChildrens() {
-        return childrens;
-    }
 
     public String getName() {
         return name;
@@ -31,54 +32,38 @@ public class Person {
         return birthDay;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void addParent(Person p) {
+        this.parents.add(p);
     }
 
-    public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public void setParents(List<Person> parents) {
-        this.parents = parents;
-    }
-
-    public void setChildrens(List<Person> childrens) {
-        this.childrens = childrens;
+    public void addChild(Person c) {
+        this.children.add(c);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return Objects.equals(name, person.name) || Objects.equals(birthDay, person.birthDay);
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name).append(" ").append(birthDay).append(System.lineSeparator())
+                .append("Parents:").append(System.lineSeparator());
+        List<Person> sortedParents = makeReverseList(parents);
+        sortedParents.forEach(person -> sb.append(person.getName()).append(" ").append(person.getBirthDay()).append(System.lineSeparator()));
+
+        sb.append("Children:").append(System.lineSeparator());
+        List<Person> sortedChildren = makeReverseList(children);
+        sortedChildren.forEach(person -> sb.append(person.getName()).append(" ").append(person.getBirthDay()).append(System.lineSeparator()));
+
+        return sb.toString();
+    }
+
+    private List<Person> makeReverseList(Set<Person> set) {
+        List<Person> list = new ArrayList<>();
+        list.addAll(set);
+        Collections.reverse(list);
+        return list;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(name, birthDay, parents, childrens);
-    }
-
-    public void purgeLists() {
-        for (int i = 0; i < this.parents.size() - 1; i++) {
-            Person first = parents.get(i);
-            for (int j = i; j < parents.size() ; j++) {
-                if (first.equals(parents.get(j))) {
-                    parents.remove(j);
-                    j--;
-                }
-            }
-        }
-
-        for (int i = 0; i < this.childrens.size() -1; i++) {
-            Person first = childrens.get(i);
-            for (int j = i; j < childrens.size() ; j++) {
-                if (first.equals(childrens.get(j))) {
-                    childrens.remove(j);
-                    j--;
-                }
-            }
-        }
+    public int compareTo(Person o) {
+        return this.name.compareTo(o.name);
     }
 }

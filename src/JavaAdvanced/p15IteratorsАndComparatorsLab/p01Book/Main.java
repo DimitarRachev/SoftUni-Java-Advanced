@@ -1,4 +1,4 @@
-package JavaAdvanced.p14IteratorsandComparatorsLab.p01Book;
+package JavaAdvanced.p15IteratorsАndComparatorsLab.p01Book;
 
 public class Main {
     public static void main(String[] args) {

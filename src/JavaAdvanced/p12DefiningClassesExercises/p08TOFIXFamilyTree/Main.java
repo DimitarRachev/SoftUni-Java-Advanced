@@ -6,28 +6,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String searchFor = scanner.nextLine();
         List<Person> familyList = new ArrayList<>();
-        Map<String, Person> namesMap = new HashMap<>();
-        Map<String, Person> BDaysMap = new HashMap<>();
-        //set the first person
-        {
-            String[] temp = searchFor.split(" ");
-            if (temp.length == 1) {
-                String BDay = searchFor;
-                Person person = new Person();
-                person.setBirthDay(BDay);
-                familyList.add(person);
-                BDaysMap.put(BDay, person);
+        Map<String, String> parentChild = new HashMap<>();
 
-            } else {
-                String name = searchFor;
-                Person person = new Person();
-                person.setName(name);
-                familyList.add(person);
-                namesMap.put(name, person);
-            }
-        }
+        String searchFor = scanner.nextLine();
 
         String line;
         while (!"End".equals(line = scanner.nextLine())) {
@@ -38,76 +20,35 @@ public class Main {
                 String lastName = input[1];
                 String name = firstName + " " + lastName;
                 String BDay = input[2];
-                if (BDaysMap.get(BDay).equals(namesMap.get(name))) {
-                    mergePersons(BDaysMap.get(BDay), namesMap.get(name), familyList);
-                }
+                familyList.add(new Person(name, BDay));
 
             } else {
-                String[] left = input[0].split(" ");
-                Person parent = null;
-                Person child = null;
-                if (left.length == 1) {
-                    String BDay = left[0];
-                    parent = new Person();
-                    parent.setBirthDay(BDay);
-                    familyList.add(parent);
-                    BDaysMap.put(BDay, parent);
-                } else {
-                    String name = input[0];
-                    parent = new Person();
-                    parent.setName(name);
-                    familyList.add(parent);
-                    namesMap.put(name, parent);
-                }
-                String[] right = input[1].split(" ");
-                if (right.length == 1) {
-                    String BDay = right[0];
-                    child = new Person();
-                    child.setBirthDay(BDay);
-                    familyList.add(child);
-                    BDaysMap.put(BDay, child);
-                } else {
-                    String name = input[1];
-                    child = new Person();
-                    child.setName(name);
-                    familyList.add(child);
-                    namesMap.put(name, child);
-                }
-                parent.getChildrens().add(child);
-                child.getParents().add(parent);
-            }
-
-        }
-
-        System.out.println();
-    }
-
-    private static void mergePersons(Person person, Person person1, List<Person> familyList) {
-        List<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < familyList.size(); i++) {
-            if (familyList.get(i) == person || familyList.get(i) == person1) {
-                indexes.add(i);
+                String parent = input[0];
+                String child = input[1];
+                parentChild.put(parent, child);
             }
         }
-        Person firstEntry = familyList.get(indexes.get(0));
-        Person secondEntry = familyList.get(indexes.get(1));
-        if (firstEntry.getName() == null) {
-            firstEntry.setName(secondEntry.getName());
-        }
-        if (firstEntry.getBirthDay() == null) {
-            firstEntry.setBirthDay(secondEntry.getBirthDay());
-        }
-        for (Person parent : secondEntry.getParents()) {
-            firstEntry.getParents().add(parent);
-        }
-        for (Person children : secondEntry.getChildrens()) {
-            firstEntry.getChildrens().add(children);
-        }
-        familyList.remove((int)indexes.get(1));
 
-        firstEntry.purgeLists();
+        processParents(parentChild, familyList);
+        System.out.println(getPerson(searchFor, familyList));
     }
 
-
+    private static void processParents(Map<String, String> parentChild, List<Person> familyList) {
+        for (Map.Entry<String, String> entry : parentChild.entrySet()) {
+            Person parent = getPerson(entry.getKey(), familyList);
+            Person child = getPerson(entry.getValue(), familyList);
+            parent.addChild(child);
+            child.addParent(parent);
+        }
     }
+
+    private static Person getPerson(String key, List<Person> familyList) {
+        for (Person person : familyList) {
+            if (person.getName().equals(key) || person.getBirthDay().equals(key)) {
+                return person;
+            }
+        }
+        return null;
+    }
+}
 

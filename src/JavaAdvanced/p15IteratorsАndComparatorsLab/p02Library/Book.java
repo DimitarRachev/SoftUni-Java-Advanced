@@ -1,4 +1,4 @@
-package JavaAdvanced.p14IteratorsandComparatorsLab.p01Book;
+package JavaAdvanced.p15IteratorsАndComparatorsLab.p02Library;
 
 import java.util.ArrayList;
 import java.util.Arrays;
