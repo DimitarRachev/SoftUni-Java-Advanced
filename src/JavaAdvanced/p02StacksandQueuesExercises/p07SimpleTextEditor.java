@@ -4,33 +4,58 @@ import java.util.ArrayDeque;
 import java.util.Scanner;
 
 public class p07SimpleTextEditor {
+   static StringBuilder text = new StringBuilder();
+    static ArrayDeque<String> undoStack = new ArrayDeque<>();
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        StringBuilder current = new StringBuilder();
-        ArrayDeque<String> history = new ArrayDeque<>();
         int n = Integer.parseInt(scanner.nextLine());
+
         for (int i = 0; i < n; i++) {
-            String[] input = scanner.nextLine().split("\\s+");
-            switch (input[0]) {
+            String[] commands = scanner.nextLine().split("\\s+");
+            switch (commands[0]) {
                 case "1":
-                    String str = input[1];
-                    history.push(current.toString());
-                    current.append(str);
+                    addCommand(commands[1]);
                     break;
                 case "2":
-                    int num = Integer.parseInt(input[1]);
-                    history.push(current.toString());
-                    current.delete(current.length() - num, current.length());
+                    deleteCommand(Integer.parseInt(commands[1]));
                     break;
                 case "3":
-                    int index = Integer.parseInt(input[1]);
-                    System.out.println(current.charAt(index - 1));
+                    System.out.println(printChar(Integer.parseInt(commands[1]) - 1));
                     break;
                 case "4":
-                    current = new StringBuilder(history.pop());
+                    undoLastCommand();
                     break;
             }
         }
+    }
+
+    private static void undoLastCommand() {
+        String[] command = undoStack.pop().split("\\s+");
+        switch (command[0]) {
+            case "1":
+                text.append(command[1]);
+                break;
+            case "2":
+                int length = Integer.parseInt(command[1]);
+                text.setLength(text.length() - length);
+                break;
+        }
+    }
+
+    private static void deleteCommand(int length) {
+        String substring = text.substring(text.length() - length);
+        text.setLength(text.length() - length);
+        undoStack.push("1 " + substring);
+    }
+
+    private static void addCommand(String substring) {
+        text.append(substring);
+        undoStack.push("2 " + substring.length());
+    }
+
+    private static char printChar(int i) {
+        return text.charAt(i);
     }
 }
