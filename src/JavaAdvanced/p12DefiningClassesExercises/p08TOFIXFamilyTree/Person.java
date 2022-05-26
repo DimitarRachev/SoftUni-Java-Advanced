@@ -45,22 +45,18 @@ public class Person implements Comparable<Person> {
         StringBuilder sb = new StringBuilder();
         sb.append(name).append(" ").append(birthDay).append(System.lineSeparator())
                 .append("Parents:").append(System.lineSeparator());
-        List<Person> sortedParents = makeReverseList(parents);
-        sortedParents.forEach(person -> sb.append(person.getName()).append(" ").append(person.getBirthDay()).append(System.lineSeparator()));
+        if (!parents.isEmpty()) {
+            parents.forEach(person -> sb.append(person.getName()).append(" ").append(person.getBirthDay()).append(System.lineSeparator()));
+        }
 
         sb.append("Children:").append(System.lineSeparator());
-        List<Person> sortedChildren = makeReverseList(children);
-        sortedChildren.forEach(person -> sb.append(person.getName()).append(" ").append(person.getBirthDay()).append(System.lineSeparator()));
+        if (!children.isEmpty()) {
+            children.forEach(person -> sb.append(person.getName()).append(" ").append(person.getBirthDay()).append(System.lineSeparator()));
+        }
 
         return sb.toString();
     }
 
-    private List<Person> makeReverseList(Set<Person> set) {
-        List<Person> list = new ArrayList<>();
-        list.addAll(set);
-        Collections.reverse(list);
-        return list;
-    }
 
     @Override
     public int compareTo(Person o) {

@@ -7,7 +7,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         List<Person> familyList = new ArrayList<>();
-        Map<String, String> parentChild = new HashMap<>();
+        Map<String, String> parentChild = new LinkedHashMap<>();
 
         String searchFor = scanner.nextLine();
 
