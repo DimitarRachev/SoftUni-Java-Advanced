@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<Person> familyList = new ArrayList<>();
+        Set<Person> familyListMap = new LinkedHashSet<>();
         Map<String, String> parentChild = new LinkedHashMap<>();
 
         String searchFor = scanner.nextLine();
@@ -20,7 +20,7 @@ public class Main {
                 String lastName = input[1];
                 String name = firstName + " " + lastName;
                 String BDay = input[2];
-                familyList.add(new Person(name, BDay));
+                familyListMap.add(new Person(name, BDay));
 
             } else {
                 String parent = input[0];
@@ -29,21 +29,21 @@ public class Main {
             }
         }
 
-        processParents(parentChild, familyList);
-        System.out.println(getPerson(searchFor, familyList));
+        processParents(parentChild, familyListMap);
+        System.out.println(getPerson(searchFor, familyListMap));
     }
 
-    private static void processParents(Map<String, String> parentChild, List<Person> familyList) {
+    private static void processParents(Map<String, String> parentChild, Set<Person> familyListMap) {
         for (Map.Entry<String, String> entry : parentChild.entrySet()) {
-            Person parent = getPerson(entry.getKey(), familyList);
-            Person child = getPerson(entry.getValue(), familyList);
+            Person parent = getPerson(entry.getKey(), familyListMap);
+            Person child = getPerson(entry.getValue(), familyListMap);
             parent.addChild(child);
             child.addParent(parent);
         }
     }
 
-    private static Person getPerson(String key, List<Person> familyList) {
-        for (Person person : familyList) {
+    private static Person getPerson(String key, Set<Person> familyListMap) {
+        for (Person person : familyListMap) {
             if (person.getName().equals(key) || person.getBirthDay().equals(key)) {
                 return person;
             }
