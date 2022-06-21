@@ -11,9 +11,6 @@ public class Bag {
 
 
     public Bag(String color, int capacity) {
-//        String x = String.valueOf(color.charAt(0)).toUpperCase();
-//        String y = x + color.substring(1);
-//        this.color = y;
         this.color = color;
         this.capacity = capacity;
         data = new ArrayList<>();
@@ -57,16 +54,6 @@ public class Bag {
             }
         }
         return heavy;
-//        return data.stream().sorted((e1, e2) -> {
-//            double result = e2.getWeight() - e1.getWeight();
-//            if (result > 0) {
-//                return 1;
-//            } else if (result < 0) {
-//                return -1;
-//            } else {
-//                return 0;
-//            }
-//        }).findFirst().get();
     }
 
     public Present getPresent(String name) {

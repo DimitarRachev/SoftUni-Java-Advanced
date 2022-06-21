@@ -31,9 +31,6 @@ public class Present {
     public String toString() {
         return String.format("Present %s (%s) for a %s", name, df.format(weight), gender);
     }
-//    public String toString() {
-//        return String.format("Present %s (%.2f) for a %s", name, weight, gender);
-//    }
 
 
     public void setName(String name) {
